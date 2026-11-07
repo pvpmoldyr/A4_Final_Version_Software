@@ -1,11 +1,14 @@
 import type { Room } from './types';
 
+export const EQUIPMENT_OPTIONS = ['Projector', 'Whiteboard', 'Microphone', 'Computers', 'Video conferencing'];
+
 export const sampleRooms: Room[] = [
   {
     id: 'room-101',
     name: 'Room 101 — Lecture Hall A',
     building: 'Engineering Block',
     capacity: 120,
+    equipment: ['Projector', 'Microphone', 'Whiteboard'],
     blocked: false,
     bookings: [
       { start: 540, end: 600, title: 'Data Structures 101', bookedBy: 'Prof. Chen' },
@@ -18,6 +21,7 @@ export const sampleRooms: Room[] = [
     name: 'Room 102 — Lab B',
     building: 'Science Wing',
     capacity: 40,
+    equipment: ['Computers', 'Projector', 'Whiteboard'],
     blocked: false,
     bookings: [
       { start: 480, end: 540, title: 'Physics Lab Session', bookedBy: 'Prof. Kumar' },
@@ -29,6 +33,7 @@ export const sampleRooms: Room[] = [
     name: 'Room 103 — Seminar Room',
     building: 'Library Tower',
     capacity: 25,
+    equipment: ['Projector', 'Video conferencing'],
     blocked: true,
     blockedReason: 'Under maintenance — HVAC repair scheduled.',
     bookings: [],
@@ -38,6 +43,7 @@ export const sampleRooms: Room[] = [
     name: 'Room 104 — Auditorium',
     building: 'Main Building',
     capacity: 300,
+    equipment: ['Projector', 'Microphone', 'Video conferencing'],
     blocked: false,
     bookings: [
       { start: 600, end: 720, title: 'Guest Lecture: AI Ethics', bookedBy: 'Dean Office' },
@@ -49,6 +55,7 @@ export const sampleRooms: Room[] = [
     name: 'Room 105 — Study Lounge',
     building: 'Student Center',
     capacity: 15,
+    equipment: ['Whiteboard'],
     blocked: false,
     bookings: [
       { start: 660, end: 720, title: 'Group Project Meeting', bookedBy: 'Student Council' },
