@@ -21,18 +21,11 @@ import {
 } from '@/availability';
 import { DayTimeline } from '@/components/DayTimeline';
 import type { CheckResult } from '@/types';
+import { formatDuration } from '@/timeUtils';
 
 function getNowMinutes(): number {
   const now = new Date();
   return now.getHours() * 60 + now.getMinutes();
-}
-
-function formatDuration(min: number): string {
-  const h = Math.floor(min / 60);
-  const m = min % 60;
-  if (h === 0) return `${m} min`;
-  if (m === 0) return `${h} hr`;
-  return `${h} hr ${m} min`;
 }
 
 export default function App() {
@@ -56,11 +49,15 @@ export default function App() {
     [filteredRooms, selectedRoomId],
   );
 
+  function clearResult() {
+    setResult(null);
+    setHasChecked(false);
+  }
+
   function updateFilters(next: { attendees: number | null; requiredEquipment: string[] }) {
     setAttendees(next.attendees);
     setRequiredEquipment(next.requiredEquipment);
-    setResult(null);
-    setHasChecked(false);
+    clearResult();
     const stillVisible = filterRooms(rooms, next).some((room) => room.id === selectedRoomId);
     if (!stillVisible) setSelectedRoomId(null);
   }
@@ -83,8 +80,7 @@ export default function App() {
   }
 
   function handleReset() {
-    setResult(null);
-    setHasChecked(false);
+    clearResult();
     setStartTime('10:00');
     setEndTime('11:00');
     setCurrentTime(getNowMinutes());
@@ -189,8 +185,7 @@ export default function App() {
                       key={room.id}
                       onClick={() => {
                         setSelectedRoomId(room.id);
-                        setHasChecked(false);
-                        setResult(null);
+                        clearResult();
                       }}
                       className={`w-full text-left rounded-xl border px-4 py-3 transition-all ${
                         active
@@ -247,7 +242,7 @@ export default function App() {
                   value={startTime}
                   onChange={(e) => {
                     setStartTime(e.target.value);
-                    setHasChecked(false);
+                    clearResult();
                   }}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
@@ -261,7 +256,7 @@ export default function App() {
                   value={endTime}
                   onChange={(e) => {
                     setEndTime(e.target.value);
-                    setHasChecked(false);
+                    clearResult();
                   }}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
@@ -278,7 +273,7 @@ export default function App() {
                 value={formatTime(currentTime)}
                 onChange={(e) => {
                   setCurrentTime(parseTime(e.target.value));
-                  setHasChecked(false);
+                  clearResult();
                 }}
                 className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               />
